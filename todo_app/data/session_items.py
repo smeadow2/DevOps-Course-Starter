@@ -1,8 +1,10 @@
 from flask import session
+from operator import itemgetter, attrgetter
+import sys
 
 _DEFAULT_ITEMS = [
     { 'id': 1, 'status': 'Not Started', 'title': 'List saved todo items' },
-    { 'id': 2, 'status': 'Not Started', 'title': 'Allow new items to be added' }
+    { 'id': 2, 'status': 'Completed', 'title': 'Allow new items to be added' }
 ]
 
 
@@ -67,3 +69,15 @@ def save_item(item):
     session['items'] = updated_items
 
     return item
+
+def sort_items(current_sort_reverse):
+    items = get_items()
+    updated_items = sorted(items, key=itemgetter('id'), reverse=current_sort_reverse)
+    session['items'] = updated_items
+    return
+
+def remove_item(item_id):
+    items = get_items()
+    updated_items = [i for i in items if not (i['id'] == int(item_id))]
+    session['items'] = updated_items
+    return

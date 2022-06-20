@@ -10,14 +10,32 @@
   <div class="row">
     <div class="col-md-12">
       <h2>Items</h2>
-      <ul class="list-group mb-4">
-        {% for to_do in to_do_list %}
-        <li>{{to_do.title}}</li>
-        {% endfor %}
-        </ul>
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>TITLE</th>
+          <th><a href="/sort">STATUS</a></th>
+          <th> </th>
+          <th> </th>
+        </tr>
+        
+        <!--<ul class="list-group mb-4">-->
+          {% for to_do in to_do_list %}
+          <tr>
+          <!--<li>{{to_do.id}} - {{to_do.title}} - {{to_do.status}} <a href="/complete/{{ to_do.id }}">COMPLETE</a><a href="/delete/{{ to_do.id }}">DELETE</a></li>-->
+          <td>{{to_do.id}}</td>
+          <td>{{to_do.title}}</td>
+          <td>{{to_do.status}}</td>
+          <td><a href="/complete/{{ to_do.id }}">COMPLETE</a></td>
+          <td><a href="/delete/{{ to_do.id }}">DELETE</a></td>
+          <!--</li>-->
+        </tr>
+          {% endfor %}
+          <!--</ul>-->
+      </table>
     </div>
   </div>
-  <form action="" method="POST">
+  <form action="add" method="POST">
     <div>
       <label for="to_do_title">Enter a to do title: </label>
       <input type="text" name="to_do_title" id="to_do_title" required>
