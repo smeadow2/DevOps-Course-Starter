@@ -1,12 +1,9 @@
 from flask import session
-from operator import itemgetter, attrgetter
-import sys
 
 _DEFAULT_ITEMS = [
     { 'id': 1, 'status': 'Not Started', 'title': 'List saved todo items' },
     { 'id': 2, 'status': 'Completed', 'title': 'Allow new items to be added' }
 ]
-
 
 def get_items():
     """
@@ -16,7 +13,6 @@ def get_items():
         list: The list of saved items.
     """
     return session.get('items', _DEFAULT_ITEMS.copy())
-
 
 def get_item(id):
     """
@@ -30,7 +26,6 @@ def get_item(id):
     """
     items = get_items()
     return next((item for item in items if item['id'] == int(id)), None)
-
 
 def add_item(title):
     """
@@ -55,7 +50,6 @@ def add_item(title):
 
     return item
 
-
 def save_item(item):
     """
     Updates an existing item in the session. If no existing item matches the ID of the specified item, nothing is saved.
@@ -70,14 +64,16 @@ def save_item(item):
 
     return item
 
-def sort_items(current_sort_reverse):
-    items = get_items()
-    updated_items = sorted(items, key=itemgetter('id'), reverse=current_sort_reverse)
-    session['items'] = updated_items
-    return
-
 def remove_item(item_id):
+    """
+    Removes an existing item with the specified id.
+
+    Args:
+        item_id: The item id to remove
+    """
     items = get_items()
     updated_items = [i for i in items if not (i['id'] == int(item_id))]
+    
     session['items'] = updated_items
+    
     return

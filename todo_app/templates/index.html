@@ -10,36 +10,49 @@
   <div class="row">
     <div class="col-md-12">
       <h2>Items</h2>
-      <table>
+        <form action="add" method="POST">
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <input type="text" name="to_do_title" class="form-control" placeholder="Title to add" aria-label="Title to add" aria-describedby="add-title-button">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit" id="add-title-button">Submit</button>
+              </div>
+            </div>
+          </div>        
+        </form>
+      <table class="table table-hover table-sm">
+        <thead class="thead-light">
         <tr>
-          <th>ID</th>
-          <th>TITLE</th>
-          <th><a href="/sort">STATUS</a></th>
-          <th> </th>
-          <th> </th>
+          <th scope="col">Title</th>
+          <th scope="col">Status
+            <form action="sort">
+              <div>
+                <input type="submit" value="Sort">
+              </div>
+              </form>
+          </th>
+          <th scope="col"></th>
         </tr>
-        
-        <!--<ul class="list-group mb-4">-->
-          {% for to_do in to_do_list %}
-          <tr>
-          <!--<li>{{to_do.id}} - {{to_do.title}} - {{to_do.status}} <a href="/complete/{{ to_do.id }}">COMPLETE</a><a href="/delete/{{ to_do.id }}">DELETE</a></li>-->
-          <td>{{to_do.id}}</td>
+      </thead>
+        {% for to_do in to_do_list %}
+        <tr>
           <td>{{to_do.title}}</td>
           <td>{{to_do.status}}</td>
-          <td><a href="/complete/{{ to_do.id }}">COMPLETE</a></td>
-          <td><a href="/delete/{{ to_do.id }}">DELETE</a></td>
-          <!--</li>-->
+          <td>
+            <form action="complete/{{ to_do.id }}">
+              <div>
+                <button type="submit" class="btn btn-outline-success btn-sm">Complete</button>
+              </div>
+            </form>
+            <form action="delete/{{ to_do.id }}">
+              <div>
+                <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+              </div>
+            </form>
+          </td>
         </tr>
-          {% endfor %}
-          <!--</ul>-->
+        {% endfor %}
       </table>
     </div>
   </div>
-  <form action="add" method="POST">
-    <div>
-      <label for="to_do_title">Enter a to do title: </label>
-      <input type="text" name="to_do_title" id="to_do_title" required>
-      <input type="submit" value="Submit">
-    </div>
-  </form>
 {% endblock %}
