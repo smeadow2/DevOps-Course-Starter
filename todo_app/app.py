@@ -24,8 +24,13 @@ def index():
     to_do_list = get_items()
     curr_sort_order = session.get('sort_order')
 
-    if curr_sort_order == True or curr_sort_order == False:
-        to_do_list = sorted(to_do_list, key=itemgetter('status'), reverse=curr_sort_order)
+    if curr_sort_order == 'True':
+        sort_order = True
+    elif curr_sort_order == 'False':
+        sort_order = False
+    
+    if curr_sort_order != '':
+        to_do_list = sorted(to_do_list, key=itemgetter('status'), reverse=sort_order)
 
     return render_template('index.html', to_do_list=to_do_list)
 
@@ -33,16 +38,22 @@ def index():
 def add_item_to_list():
     title = request.form.get('to_do_title')
 
-    print(title, file=sys.stdout)
-
     add_item(title)
 
     return redirect('/')
 
 @app.route('/sort')
 def sort_list():
-    curr_sort_order = session.get('sort_order', True)
-    session['sort_order'] = not curr_sort_order
+    curr_sort_order = session.get('sort_order')
+    
+    if curr_sort_order == '':
+        curr_sort_order = 'True'
+    elif curr_sort_order == 'True':
+        curr_sort_order = 'False'
+    elif curr_sort_order == 'False':
+        curr_sort_order = ''
+
+    session['sort_order'] = curr_sort_order
 
     return redirect('/')
 
