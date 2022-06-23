@@ -6,7 +6,6 @@
   <h1 class="display-4">To-Do App</h1>
   <p class="lead">Just another to-do app.</p>
 </div>
-
 <div class="row">
   <div class="col-md-12">
     <h2>Items</h2>
@@ -21,17 +20,17 @@
         </div>
       </div>
     </form>
-
     <div style="height:450px; overflow-y: scroll;">
       <table class="table table-hover table-sm">
         <thead class="thead-light">
           <tr>
-            <th style="width:60%" scope="col">Title</th>
+            <th style="width:5%" scope="col">#</th>
+            <th style="width:55%" scope="col">Title</th>
             <th style="width:20%" scope="col">Status
               <a style="color: #495057;" href="/sort">
-                {% if session['sort_order'] == 'True' %}
+                {% if session['sesh_sort_order'] == 'True' %}
                 <i class="fa fa-fw fa-sort-down"></i>
-                {% elif session['sort_order'] == 'False' %}
+                {% elif session['sesh_sort_order'] == 'False' %}
                 <i class="fa fa-fw fa-sort-up"></i>
                 {% else %}
                 <i class="fa fa-fw fa-sort"></i>
@@ -43,20 +42,20 @@
         </thead>
         {% for to_do in to_do_list %}
         <tr>
+          <td>{{to_do.id}}</td>
           <td>{{to_do.title}}</td>
           <td>{{to_do.status}}</td>
           <td>
             <div class="btn-group">
-                {% if to_do.status == 'Not Started' %}
-                <form action="complete/{{ to_do.id }}">
-                  <button type="submit" class="btn btn-outline-success btn-sm">Complete</button>
-                </form>
-                {% endif %}
-                <form action="delete/{{ to_do.id }}">
-                  <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
-                </form>
-
-          </div>  
+              {% if to_do.status == 'Not Started' %}
+              <form action="complete/{{ to_do.id }}">
+                <button type="submit" class="btn btn-outline-success btn-sm">Complete</button>
+              </form>
+              {% endif %}
+              <form action="delete/{{ to_do.id }}">
+                <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+              </form>
+            </div>
           </td>
         </tr>
         {% endfor %}

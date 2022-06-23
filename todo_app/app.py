@@ -14,23 +14,20 @@ from todo_app.data.session_items import save_item
 
 from todo_app.flask_config import Config
 
-import sys
-
 app = Flask(__name__)
 app.config.from_object(Config())
 
 @app.route('/')
 def index():
     to_do_list = get_items()
-    curr_sort_order = session.get('sort_order')
 
-    if curr_sort_order == 'True':
-        sort_order = True
-    elif curr_sort_order == 'False':
-        sort_order = False
-    
+    if session.get('sesh_sort_order') == None:
+        session['sesh_sort_order'] = ''
+        
+    curr_sort_order = session.get('sesh_sort_order')
+
     if curr_sort_order != '':
-        to_do_list = sorted(to_do_list, key=itemgetter('status'), reverse=sort_order)
+        to_do_list = sorted(to_do_list, key=itemgetter('status'), reverse=eval('curr_sort_order == \'True\''))
 
     return render_template('index.html', to_do_list=to_do_list)
 
@@ -44,7 +41,7 @@ def add_item_to_list():
 
 @app.route('/sort')
 def sort_list():
-    curr_sort_order = session.get('sort_order')
+    curr_sort_order = session.get('sesh_sort_order')
     
     if curr_sort_order == '':
         curr_sort_order = 'True'
@@ -53,7 +50,7 @@ def sort_list():
     elif curr_sort_order == 'False':
         curr_sort_order = ''
 
-    session['sort_order'] = curr_sort_order
+    session['sesh_sort_order'] = curr_sort_order
 
     return redirect('/')
 
