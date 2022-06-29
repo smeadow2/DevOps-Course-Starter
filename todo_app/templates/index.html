@@ -13,7 +13,7 @@
       <div class="form-group">
         <div class="input-group mb-3">
           <input type="text" name="to_do_title" class="form-control" placeholder="Title to add"
-            aria-label="Title to add" aria-describedby="add-title-button">
+            aria-label="Title to add" aria-describedby="add-title-button" required>
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="submit" id="add-title-button">Submit</button>
           </div>
@@ -28,9 +28,9 @@
             <th style="width:55%" scope="col">Title</th>
             <th style="width:20%" scope="col">Status
               <a style="color: #495057;" href="/sort">
-                {% if session['sesh_sort_order'] == 'True' %}
+                {% if session['sesh_sort_order'] == 'Descending' %}
                 <i class="fa fa-fw fa-sort-down"></i>
-                {% elif session['sesh_sort_order'] == 'False' %}
+                {% elif session['sesh_sort_order'] == 'Ascending' %}
                 <i class="fa fa-fw fa-sort-up"></i>
                 {% else %}
                 <i class="fa fa-fw fa-sort"></i>
@@ -48,11 +48,11 @@
           <td>
             <div class="btn-group">
               {% if to_do.status == 'Not Started' %}
-              <form action="complete/{{ to_do.id }}">
+              <form action="complete/{{ to_do.id }}" method="POST">
                 <button type="submit" class="btn btn-outline-success btn-sm">Complete</button>
               </form>
               {% endif %}
-              <form action="delete/{{ to_do.id }}">
+              <form action="delete/{{ to_do.id }}" method="POST">
                 <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
               </form>
             </div>

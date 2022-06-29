@@ -75,5 +75,3 @@ def remove_item(item_id):
     updated_items = [i for i in items if not (i['id'] == int(item_id))]
     
     session['items'] = updated_items
-    
-    return

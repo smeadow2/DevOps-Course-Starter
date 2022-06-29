@@ -27,7 +27,7 @@ def index():
     curr_sort_order = session.get('sesh_sort_order')
 
     if curr_sort_order != '':
-        to_do_list = sorted(to_do_list, key=itemgetter('status'), reverse=eval('curr_sort_order == \'True\''))
+        to_do_list = sorted(to_do_list, key=itemgetter('status'), reverse=eval('curr_sort_order == \'Descending\''))
 
     return render_template('index.html', to_do_list=to_do_list)
 
@@ -44,17 +44,17 @@ def sort_list():
     curr_sort_order = session.get('sesh_sort_order')
     
     if curr_sort_order == '':
-        curr_sort_order = 'True'
-    elif curr_sort_order == 'True':
-        curr_sort_order = 'False'
-    elif curr_sort_order == 'False':
+        curr_sort_order = 'Ascending'
+    elif curr_sort_order == 'Ascending':
+        curr_sort_order = 'Descending'
+    elif curr_sort_order == 'Descending':
         curr_sort_order = ''
 
     session['sesh_sort_order'] = curr_sort_order
 
     return redirect('/')
 
-@app.route('/complete/<id>')
+@app.route('/complete/<id>', methods=['POST'])
 def complete_item(id):
     item = get_item(id)
     item['status'] = "Completed"
@@ -62,7 +62,7 @@ def complete_item(id):
 
     return redirect('/')
 
-@app.route('/delete/<id>')
+@app.route('/delete/<id>', methods=['POST'])
 def delete_item_from_list(id):
     remove_item(id)
 
